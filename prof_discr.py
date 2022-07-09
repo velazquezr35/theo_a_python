@@ -119,22 +119,25 @@ class NACA4Prof:
 def msg(string):
     if glob_print:
         print(string)
+        
+def prof_discretizer():
+    pass
 #Others
 
-#Debug
+#Debug / Tests
 
-ramon = NACA4Prof('4412')
+# ramon = NACA4Prof('4412')
 
-x_coord = np.linspace(0,1,200)
-ramon.y_t(x_coord)
-ramon.y_c(x_coord)
-ramon.calc_dyc(x_coord)
-ramon.calc_theta()
-ramon.calc_pos(x_coord)
+# x_coord = np.linspace(0,1,4)
+# ramon.y_t(x_coord)
+# ramon.y_c(x_coord)
+# ramon.calc_dyc(x_coord)
+# ramon.calc_theta()
+# ramon.calc_pos(x_coord)
 
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
-fig, ax = plt.subplots()
-ax.plot(ramon.XU, ramon.YU)
-ax.plot(ramon.XL, ramon.YL)
-ax.set_aspect('equal')
+# fig, ax = plt.subplots()
+# ax.plot(ramon.XU, ramon.YU, 'ro')
+# ax.plot(ramon.XL, ramon.YL, 'bo')
+# ax.set_aspect('equal')
