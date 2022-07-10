@@ -57,15 +57,27 @@ class NACA4tPoly:
 class NACA4Prof:
     code = NACA4Code()
     tpoly = NACA4tPoly()
-    def __init__(self, code = '',c = 1, coefs = None):
-        self.code = code
-        self.tpoly = coefs
-        self.t_coord = np.array([])
-        self.denom_t = 0.2
-        self.m *= c
-        self.p *= c
-        self.t *= c
+    def __init__(self, tipo = 'p', code = '',c = 1, gen_xcoords = None, coefs = None):
+        if tipo == 'p':
+            self.code = code
+            self.tpoly = coefs
+            self.t_coord = np.array([])
+            self.denom_t = 0.2
+            self.m *= c
+            self.p *= c
+            self.t *= c
+            self.start_geom(gen_xcoords)
+        elif tipo == 'f':
+            self.filename = code
+            self.discrete_read()
         self.c = c
+        
+    def start_geom(self, x_coord):
+        self.y_t(x_coord)
+        self.y_c(x_coord)
+        self.calc_dyc(x_coord)
+        self.calc_theta()
+        self.calc_pos(x_coord)
         
     def y_t(self, x_coord):
         '''
@@ -91,11 +103,14 @@ class NACA4Prof:
             x_coord = np.array(x_coord)
         #parte 1
         cuad_xcoord = np.power(x_coord,2)
-        y_part_1 = (2*self.p*x_coord-cuad_xcoord)*self.m/np.power(self.p,2)
-        y_part_2 = ((1-2*self.p)+2*self.p*x_coord-cuad_xcoord)*self.m/(1-np.power(self.p,2))
-        msg('test part')
-        msg(y_part_1*(y_part_1<self.p))
-        self.c_coord = y_part_1*(y_part_1<self.p) + y_part_2*(y_part_2>=self.p)
+        if not self.p == 0.0:
+            y_part_1 = (2*self.p*x_coord-cuad_xcoord)*self.m/np.power(self.p,2)
+            y_part_2 = ((1-2*self.p)+2*self.p*x_coord-cuad_xcoord)*self.m/(1-np.power(self.p,2))
+            msg('test part')
+            msg(y_part_1*(y_part_1<self.p))
+            self.c_coord = y_part_1*(y_part_1<self.p) + y_part_2*(y_part_2>=self.p)
+        else:
+            self.c_coord = np.zeros(len(x_coord))
         msg(self.c_coord)
         
     def calc_dyc(self, x_coord):
@@ -115,29 +130,31 @@ class NACA4Prof:
         self.XL = x_coord + loc_presin
         self.YL = self.c_coord - loc_precos
         self.YU = self.c_coord + loc_precos
+                
+    def discrete_read(self):
+        lines = open(self.filename).readlines()
+        self.header = lines[0]
+        self.point_count = lines[1].split()
+        self.point_count = (int(self.point_count[0][:-1]),int(self.point_count[1][:-1]))
+        self.XU, self.XL, self.YU, self.YL  = [],[],[],[]
+        for i in range(3, self.point_count[0]+3):
+            loc_line = lines[i].split()
+            self.XU.append(float(loc_line[0]))
+            self.YU.append(float(loc_line[1]))
+        
+        for i in range(self.point_count[0]+4, len(lines)):
+            loc_line = lines[i].split()
+            self.XL.append(float(loc_line[0]))
+            self.YL.append(float(loc_line[1]))
+            
+    def discrete_selector(self, Ncada):
+        pass
+            
 #Funcs
 def msg(string):
     if glob_print:
         print(string)
         
-def prof_discretizer():
-    pass
 #Others
 
 #Debug / Tests
-
-# ramon = NACA4Prof('4412')
-
-# x_coord = np.linspace(0,1,4)
-# ramon.y_t(x_coord)
-# ramon.y_c(x_coord)
-# ramon.calc_dyc(x_coord)
-# ramon.calc_theta()
-# ramon.calc_pos(x_coord)
-
-# import matplotlib.pyplot as plt
-
-# fig, ax = plt.subplots()
-# ax.plot(ramon.XU, ramon.YU, 'ro')
-# ax.plot(ramon.XL, ramon.YL, 'bo')
-# ax.set_aspect('equal')
