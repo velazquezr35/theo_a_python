@@ -7,39 +7,7 @@ Created on Sat Nov  5 17:43:26 2022
 
 import numpy as np
 import math_tools as utis
-
-
-class Singulars:
-    
-    def VLD_2D(x,y, gamma_1, gamma_2, x2, basic_output = True):
-        xp_1 = x #-0
-        xp_2 = x - x2
-        
-        R1 = xp_1**2 + y**2
-        R2 = xp_2**2 + y**2
-        theta_1 = np.arctan2(y, xp_1)
-        theta_2 = np.arctan2(y, xp_2)
-        
-        f1 = y*np.log(R2/R1)/(2*np.pi*x2)
-        f2 = (theta_2-theta_1)/(2*np.pi*x2)
-        
-        u1 = -gamma_1*f1 + gamma_1*f2*(x2-x)
-        u2 = gamma_2*f1 + gamma_2*x*f2
-        
-        u = u1 + u2
-        
-        f1_w = np.log(R1/R2)/(2*np.pi*x2)
-        f2_w = y*((x2/y)+theta_2-theta_1)/(2*np.pi*x2)
-        
-        w1 = -gamma_1*f1_w*(x2-x) - f2_w * gamma_1
-        w2 = -gamma_2*x*f1_w + f2_w * gamma_2
-
-        w = w1+w2
-        if basic_output:
-            return(u,w)
-        else:    
-            return(u, w, u1, w1, u2, w2)
-    
+   
 
 class Prof_gen:
     

@@ -59,3 +59,64 @@ def plot_gammas(prof, gamma_vect, **kwargs):
     fig, ax = plt.subplots()
     ax.plot(prof.x_points, gamma_vect)
     return fig, ax
+
+
+#Testing dedicated funcs
+
+def _testing_CLvs(validation,CL_lst, **kwargs):
+    '''
+    Testing func
+    
+    Plot external CL data vs alpha against calculated CLs for a testing case
+    
+    Parameters
+    ----------
+    [validation] : list
+        internal: [alphas,CLs]
+    CL_lst: list
+        Calculated CLs
+
+    Returns
+    -------
+    fig, ax - Matplotlib fig and ax objs
+
+    '''
+    
+    fig, ax = plt.subplots()
+    ax.plot(validation[0], validation[1], label = 'xfoilRE500e3', marker = 's')
+    ax.plot(validation[0], CL_lst, label = 'RRV ideal')
+    
+    ax.set_xlabel('alpha [deg]', fontsize = 12)
+    ax.set_ylabel('CL', fontsize = 12)
+    ax.grid()
+    ax.legend(title='TBD')
+    
+    return fig, ax
+
+def _testing_CPvs(prof, CPs, validation, **kwargs):
+    '''
+    Testing func
+    
+    Plot external CP data vs calculated for a testing case
+    
+    Parameters
+    ----------
+    prof : theo_a Profile obj
+    CPs : nump.ndarray
+    validation : list
+        internal: [x,cp]
+
+    Returns
+    -------
+    fig, ax - Matplotlib fig and ax objs
+
+    '''
+    fig, ax = plt.subplots()
+    ax. plot(prof.x_mid, CPs, label = 'theo_a')
+    ax.plot(validation[0], validation[1], label = 'XFOIL RE500E3')
+    
+    ax.set_xlabel('x coord', fontsize = 12)
+    ax.set_ylabel('-Cp', fontsize = 12)
+    ax.grid()
+    ax.legend(title='TBD')
+    return fig, ax

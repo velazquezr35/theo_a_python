@@ -9,7 +9,7 @@ def LST_ARR(tent_lst):
 def checkabs(*vals):
     ret = []
     for loc in vals:
-        if abs(loc) < 1e-9:
+        if abs(loc) < 1e-10:
             loc = 0
         ret.append(loc)
     return(ret)
