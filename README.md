@@ -12,9 +12,10 @@ elapsed_time ~ 125 [s]
 
 Results:
 
-![image](https://github.com/velazquezr35/theo_a_python/assets/79613034/d7bc5b46-d2f9-462e-8176-b656098f2eb0)
+![cpvsx](https://github.com/velazquezr35/theo_a_python/assets/79613034/77185bbc-5ac4-419d-a068-7ba56b63a6dc)
 
-![image](https://github.com/velazquezr35/theo_a_python/assets/79613034/9040b074-87c4-445b-8146-5bcafcd0a348)
+![clvsalpha](https://github.com/velazquezr35/theo_a_python/assets/79613034/90162245-ad6a-4cd4-a4cd-369a8c9638d2)
+
 
 Source: http://airfoiltools.com/airfoil/details?airfoil=n0012-il
 RAW VALIDATION DATA (24/07/2023): [NACA0012_RE500E3_A8DEG.zip](https://github.com/velazquezr35/theo_a_python/files/12156073/NACA0012_RE500E3_A8DEG.zip)
