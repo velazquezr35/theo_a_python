@@ -1,5 +1,23 @@
+"""
+#Theo_a_python
+A simple tool for analysis of 2D airfoils using potential flow theory
+Methodology: Linear vorticity distribution
+Version: Python prepro, solver & postpro
+
+@author: Rodrigo R. Velazquez
+
+AUG 2023
+
+#Module
+Math_tools
+
+- General purpose numeric tools. POT_FLOW solver needs this module.
+"""
+
+#Imports
 import numpy as np
 
+#Funcs
 def LST_ARR(tent_lst):
     if isinstance(tent_lst, list):
         return np.array(tent_lst)
@@ -47,15 +65,15 @@ def appnd_last(arr):
 def rot_vect(matrx, vec):
     return np.matmul(matrx, vec)
 
-def gen_norm(theta, v0, scale=1):
+def gen_norm(theta, v0, scale=1, supress_print = True):
     probe_t = rot_vect(MAT_L2G(theta), np.array([1,0])*scale)
     probe_n = rot_vect(MAT_L2G(theta), np.array([0,1])*scale)
-    print(probe_n)
-    print(v0)
-    print(np.dot(probe_t, probe_n))
     p_1x = probe_t + v0
     p_1y = probe_n + v0
-    print(p_1x, p_1y)
-    print(np.dot(p_1x, p_1y))
-    print('s')
+    if not supress_print:
+        print(probe_n)
+        print(v0)
+        print(np.dot(probe_t, probe_n))
+        print(p_1x, p_1y)
+        print(np.dot(p_1x, p_1y))
     return(v0, p_1x, p_1y)

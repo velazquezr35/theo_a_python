@@ -17,7 +17,6 @@ Testing
 #Imports
 import numpy as np
 import matplotlib.pyplot as plt
-import xf_txt_reader as xf
 import geom_discr
 import pot_flow
 import plotter
@@ -96,8 +95,8 @@ def NACA0012_validation():
     main_alpha = 8
     
     ##Read external data
-    validation_alphas, validation_CLs = xf.read_CL_alpha(r'D:\test\0012RE500E3.txt')
-    validation_x, validation_cp = xf.read_CL_alpha(r'D:\test\0012a8.txtt',header_init=1)
+    validation_alphas, validation_CLs = geom_discr.read_CL_alpha(r'D:\test\0012RE500E3.txt')
+    validation_x, validation_cp = geom_discr.read_CL_alpha(r'D:\test\0012a8.txtt',header_init=1)
     
     ##NACA0012 profile generation
     ###Cosine geom. discretization

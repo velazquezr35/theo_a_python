@@ -1,15 +1,26 @@
-# -*- coding: utf-8 -*-
 """
-Created on Sat Nov 12 11:58:07 2022
+#Theo_a_python
+A simple tool for analysis of 2D airfoils using potential flow theory
+Methodology: Linear vorticity distribution
+Version: Python prepro, solver & postpro
 
-@author: ramon
+@author: Rodrigo R. Velazquez
+
+AUG 2023
+
+#Module
+Plotter
+
+- Plotting funcs and general postpro tools. Needs math_tools.
 """
 
+#Imports
 import matplotlib.pyplot as plt
 import math_tools as utis
 import numpy as np
 
 
+#General postpro funcs
 def directors_plot(ax, prof, scale = 0.05):
     for loc_beta, loc_x, loc_y in zip(prof.betas, prof.x_points[:-1], prof.y_points[:-1]):
         p0, pt, pn = utis.gen_norm(loc_beta, [loc_x, loc_y], scale)
