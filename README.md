@@ -7,8 +7,8 @@ References: "Low Speed Aerodynamics - From wing theory to panel methods", Joseph
 
 Validation case: NACA 0012, Re = 500E3
 
-N_points = 50
-elapsed_time ~ 125 [s]
+- N_points = 50
+- elapsed_time ~ 125 [s]
 
 Results:
 
