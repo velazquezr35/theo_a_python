@@ -95,8 +95,8 @@ def NACA0012_validation():
     main_alpha = 8
     
     ##Read external data
-    validation_alphas, validation_CLs = geom_discr.read_CL_alpha(r'D:\test\0012RE500E3.txt')
-    validation_x, validation_cp = geom_discr.read_CL_alpha(r'D:\test\0012a8.txtt',header_init=1)
+    validation_alphas, validation_CLs = geom_discr.read_txt_xfoil(r'D:\test\0012RE500E3.txt', header_init = 12)
+    validation_x, validation_cp = geom_discr.read_txt_xfoil(r'D:\test\0012a8.txtt', header_init=1)
     
     ##NACA0012 profile generation
     ###Cosine geom. discretization
@@ -131,10 +131,15 @@ def NACA0012_validation():
         loc_CPs, loc_Lifts = pot_flow.CPCL(NACA0012_prof, loc_gamma_vect,loc_Vinf)
         CL_lst.append(sum(loc_Lifts)*2/(air_density*1*external_flow_Vinf**2)) 
     
-    ###Postpro}
+    ###Postpro
     fig_CLs, ax_CLs = plotter._testing_CLvs([validation_alphas,validation_CLs], CL_lst)
     
 #Standalone run
 
 if __name__ == '__main__':
+    import time
+    start = time.time()
     NACA0012_validation()
+    end = time.time()
+    print('Elapsed [s]: ')
+    print(end - start)

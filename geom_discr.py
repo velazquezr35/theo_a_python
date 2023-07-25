@@ -88,9 +88,9 @@ def quitter_lst(lst):
             pass
     return new
 
-def read_CL_alpha(fileloc, header_init = 12):
+def read_txt_xfoil(fileloc, header_init = 0):
     f1 = open(fileloc)
-    f1_lines = f1.readlines()[12:]
+    f1_lines = f1.readlines()[header_init:]
     f1.close()
     alphas = []
     CLs = []
