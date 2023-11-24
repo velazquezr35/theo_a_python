@@ -27,12 +27,14 @@ def directors_plot(ax, prof, scale = 0.05):
         ax.plot([p0[0],pt[0]], [p0[1], pt[1]], 'r')
         ax.plot([p0[0],pn[0]], [p0[1], pn[1]], 'b')
             
-def plot_tester(prof):
+def plot_tester(profs):
     fig, ax = plt.subplots()
-    ax.plot(prof.x_points, prof.y_points)
-    # ax.plot(prof.x_coords, prof.y_coords, 'ro')
-    # ax.plot(prof.x_mid, prof.y_mid, 'bo')
-    # directors_plot(ax, prof)
+    
+    for prof in profs:
+        ax.plot(prof.x_points, prof.y_points)
+        # ax.plot(prof.x_coords, prof.y_coords, 'ro')
+        # ax.plot(prof.x_mid, prof.y_mid, 'bo')
+        # directors_plot(ax, prof)
     ax.grid()
     ax.set_aspect('equal')
     return fig,ax

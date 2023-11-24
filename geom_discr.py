@@ -22,6 +22,51 @@ import os
 
 #Classes
 
+class Assy_wrapper:
+    '''
+    Profile assy wrapper
+    
+    '''
+    def __init__(self, **kwargs):
+        self.profiles = []
+        self.profile_count = 0
+        self.Ns = []
+        self.Ms = []
+        self.N_total = 0
+        self.M_total = 0
+    
+    def add_profile(self, profile):
+        self.profiles.append(profile)
+        self.profile_count += 1
+        self.Ns.append(profile.N)
+        self.Ms.append(profile.M)
+        self.N_total += profile.N
+        self.M_total += profile.M
+        
+    def assy_mtrxs(self):
+        self.betas = np.copy(self.profiles[0].betas)
+        self.tgs = np.copy(self.profiles[0].tgs)
+        self.norms = np.copy(self.profiles[0].norms)
+        self.x_points = np.copy(self.profiles[0].x_points)
+        self.y_points = np.copy(self.profiles[0].y_points)
+        self.dx = np.copy(self.profiles[0].dx)
+        self.dy = np.copy(self.profiles[0].dy)
+        self.x_mid = np.copy(self.profiles[0].x_mid)
+        self.y_mid = np.copy(self.profiles[0].y_mid)
+        self.dL = np.copy(self.profiles[0].dL)
+        
+        for prof in self.profiles[1:]:
+            self.betas = np.append(self.betas, prof.betas)
+            self.tgs = np.append(self.tgs, prof.tgs, axis = 0)
+            self.norms = np.append(self.norms, prof.norms, axis = 0)
+            self.x_points = np.append(self.x_points, prof.x_points)
+            self.y_points = np.append(self.y_points, prof.y_points)
+            self.dx = np.append(self.dx, prof.dx)
+            self.dy = np.append(self.dy, prof.dy)
+            self.x_mid = np.append(self.x_mid, prof.x_mid)
+            self.y_mid = np.append(self.y_mid, prof.y_mid)
+            self.dL = np.append(self.dL, prof.dL)
+            
 class Prof_gen:
     '''
     Profile object
@@ -38,20 +83,33 @@ class Prof_gen:
         - update(): Calculates some geometric data (normals, tangentials, distances, lenghts...)
     '''
     
-    def __init__(self,**kwargs):
+    def __init__(self, **kwargs):
         if 'from_coords' in kwargs:
             if kwargs.get('from_coords'):
                 self.x_coords = np.array(kwargs.get('x_points'))
                 self.y_coords = np.array(kwargs.get('y_points'))
+        if 'traslation' in kwargs:
+            self.x_offset = kwargs.get('traslation')[0]
+            self.y_offset = kwargs.get('traslation')[1]
+        else:
+            self.x_offset = 0
+            self.y_offset = 0
     
     def update(self):
+        
         self._gen_p_points()
+        self._transform_geom()
         self._calc_thet_midpoints()
         self._panel_length()
         self.N = len(self.x_points)
         self.M = self.N-1
         self._gen_norms()
         
+        
+    def _transform_geom(self):
+        self.x_points += self.x_offset
+        self.y_points += self.y_offset
+            
     def _gen_norms(self, **kwargs):
         self.norms = []
         self.tgs = []
