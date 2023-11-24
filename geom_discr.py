@@ -1,15 +1,42 @@
-# -*- coding: utf-8 -*-
 """
-Created on Sat Nov  5 17:43:26 2022
+#Theo_a_python
+A simple tool for analysis of 2D airfoils using potential flow theory
+Methodology: Linear vorticity distribution
+Version: Python prepro, solver & postpro
 
-@author: ramon
+@author: Rodrigo R. Velazquez
+
+AUG 2023
+
+#Module
+Geom_discr
+
+- Geometric tools for the airfoil analysis and external data reading
 """
+
+#Imports
 
 import numpy as np
 import math_tools as utis
-   
+import os
+
+#Classes
 
 class Prof_gen:
+    '''
+    Profile object
+    
+    Current init overloads:
+        - from_coords: start the profile from a set of X and Y points. The points should be indicated in CW direction from the trailing edge. DO NOT duplicate the last one.
+        
+        Example:
+            
+            original_x_dist = array([0.  , 0.25, 0.5 , 0.75, 1.  ])
+            x_points = array([0.  , 0.25, 0.5 , 0.75, 1.  , 0.75, 0.5 , 0.25])
+            
+    Methods:
+        - update(): Calculates some geometric data (normals, tangentials, distances, lenghts...)
+    '''
     
     def __init__(self,**kwargs):
         if 'from_coords' in kwargs:
@@ -46,16 +73,30 @@ class Prof_gen:
     def _calc_thet_midpoints(self, **kwargs):
         self.dx = np.diff(self.x_points)
         self.dy = np.diff(self.y_points)
-        
         self.betas = np.arctan2(self.dy, self.dx)
-        
         self.x_mid = 0.5*self.dx + self.x_points[:-1]
         self.y_mid = 0.5*self.dy + self.y_points[:-1]
+        
+#Funcs
 
- 
-# # Plotting stream plot
+def quitter_lst(lst):
+    new = []
+    for loc in lst:
+        try:
+            new.append(float(loc))
+        except:
+            pass
+    return new
 
-# Z = np.sqrt(u**2+w**2)
-# ax.imshow(Z, interpolation='bilinear', extent = [x[0], x[-1], y[0], y[-1]])
-# ax.streamplot(X, Y, u, w, density = 2)
-# ax.plot([0,x2],[0,0], linewidth = 5)
+def read_txt_xfoil(fileloc, header_init = 0):
+    f1 = open(fileloc)
+    f1_lines = f1.readlines()[header_init:]
+    f1.close()
+    alphas = []
+    CLs = []
+    for i in range(len(f1_lines)):
+        loc_l = f1_lines[i].split(' ')
+        loc_l = quitter_lst(loc_l)
+        alphas.append(float(loc_l[0]))
+        CLs.append(float(loc_l[1]))
+    return(alphas, CLs)

@@ -24,7 +24,7 @@ import numpy as np
 
 
 #Testing
-if True:
+if False:
     import testing
     
-    
+#Sample run

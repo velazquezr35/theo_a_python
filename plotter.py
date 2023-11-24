@@ -1,15 +1,26 @@
-# -*- coding: utf-8 -*-
 """
-Created on Sat Nov 12 11:58:07 2022
+#Theo_a_python
+A simple tool for analysis of 2D airfoils using potential flow theory
+Methodology: Linear vorticity distribution
+Version: Python prepro, solver & postpro
 
-@author: ramon
+@author: Rodrigo R. Velazquez
+
+AUG 2023
+
+#Module
+Plotter
+
+- Plotting funcs and general postpro tools. Needs math_tools.
 """
 
+#Imports
 import matplotlib.pyplot as plt
 import math_tools as utis
 import numpy as np
 
 
+#General postpro funcs
 def directors_plot(ax, prof, scale = 0.05):
     for loc_beta, loc_x, loc_y in zip(prof.betas, prof.x_points[:-1], prof.y_points[:-1]):
         p0, pt, pn = utis.gen_norm(loc_beta, [loc_x, loc_y], scale)
@@ -83,13 +94,14 @@ def _testing_CLvs(validation,CL_lst, **kwargs):
     '''
     
     fig, ax = plt.subplots()
-    ax.plot(validation[0], validation[1], label = 'xfoilRE500e3', marker = 's')
-    ax.plot(validation[0], CL_lst, label = 'RRV ideal')
+    ax.plot(validation[0], validation[1], label = 'XFOIL')
+    ax.plot(validation[0], CL_lst, label = 'THEO_A')
     
     ax.set_xlabel('alpha [deg]', fontsize = 12)
     ax.set_ylabel('CL', fontsize = 12)
+    fig.suptitle('CL vs alpha')
     ax.grid()
-    ax.legend(title='TBD')
+    ax.legend(title='Testing - NACA 0012 - RE 500E3')
     
     return fig, ax
 
@@ -112,11 +124,12 @@ def _testing_CPvs(prof, CPs, validation, **kwargs):
 
     '''
     fig, ax = plt.subplots()
-    ax. plot(prof.x_mid, CPs, label = 'theo_a')
-    ax.plot(validation[0], validation[1], label = 'XFOIL RE500E3')
+    ax. plot(prof.x_mid, CPs, label = 'THEO_A')
+    ax.plot(validation[0], validation[1], label = 'XFOIL')
     
-    ax.set_xlabel('x coord', fontsize = 12)
-    ax.set_ylabel('-Cp', fontsize = 12)
+    ax.set_xlabel('x coord [adim]', fontsize = 12)
+    ax.set_ylabel('-Cp [adim]', fontsize = 12)
+    fig.suptitle('Pressure coef. dist.')
     ax.grid()
-    ax.legend(title='TBD')
+    ax.legend(title='Testing - NACA 0012 - RE 500E3')
     return fig, ax
